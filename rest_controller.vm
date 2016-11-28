@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${ROOT_PKG}.model.ResponseMessage;
 import ${ENTITY_PKG}.${entity.name};
-import ${ROOT_PKG}.service.${entity.name}Service;
+import ${ROOT_PKG}.services.${entity.name}Service;
 
 @Controller
 @RequestMapping(value="/api/v1/${entity.name.toLowerCase()}")
 public class ${entity.name}RestController {
 	
-	private static Logger logger = LoggerFactory.getLogger(${entity.name}Controller.class);
+	private static Logger logger = LoggerFactory.getLogger(${entity.name}RestController.class);
 	
 	@Autowired
 	private ${entity.name}Service ${entity.name.toLowerCase()}Service;
@@ -210,5 +210,12 @@ public class ${entity.name}RestController {
 		return responseMessage;
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public @ResponseBody
+	String handleException(Exception e, HttpServletResponse response) {
+	    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	    return e.getMessage();
+	}
+
 }
 

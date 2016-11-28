@@ -116,7 +116,14 @@ $jpa.linkAnnotations(4, $link, $allMappedFields)
 		this.compositePrimaryKey = new ${entity.name}Key();       
 #end
     }
-    
+
+        public ${entity.name} update(${entity.name} a) {
+#foreach( $field in $entity.keyAttributes )
+		this.$field.name = a.$field.name;
+#end
+		return a;
+	}
+
 #if ( $entity.hasCompositePrimaryKey() )
     //----------------------------------------------------------------------
     // GETTER & SETTER FOR THE COMPOSITE KEY 
@@ -129,14 +136,6 @@ $jpa.linkAnnotations(4, $link, $allMappedFields)
 ##        this.key = key;
 ##    }
 ##
-
-    public ${entity.name} update(${entity.name} a) {
-#foreach( $field in $entity.keyAttributes )
-		this.$field.name = a.$field.name;
-#end
-		return a;
-	}
-
 
 #foreach( $field in $entity.keyAttributes )
 #if ( $field.setter )    public void ${field.setter}( $field.type $field.name )

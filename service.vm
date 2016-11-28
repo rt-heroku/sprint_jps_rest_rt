@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ${ENTITY_PKG}.${entity.name};
 import ${ROOT_PKG}.exceptions.${entity.name}NotFoundException;
-import ${ROOT_PKG}.repositories.${entity.name}PagedRepository;
+import ${ROOT_PKG}.repository.${entity.name}Repository;
 
 @Service
 @Transactional(rollbackFor=${entity.name}NotFoundException.class)

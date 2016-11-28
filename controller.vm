@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ${ENTITY_PKG}.${entity.name};
-import ${ROOT_PKG}.service.${entity.name}Service;
+import ${ROOT_PKG}.services.${entity.name}Service;
 
 @Controller
 @RequestMapping(value="${entity.name.toLowerCase()}s")
-public class ${entity.name}Controller extends BaseController{
+public class ${entity.name}Controller /*extends BaseController*/{
 	
 	private static Logger logger = LoggerFactory.getLogger(${entity.name}Controller.class);
 	
@@ -71,6 +71,12 @@ public class ${entity.name}Controller extends BaseController{
 		mav.addObject("${entity.name}", ${entity.name.toLowerCase()});
 
 		return mav;
+	}
+	@ExceptionHandler(Exception.class)
+	public @ResponseBody
+	String handleException(Exception e, HttpServletResponse response) {
+	    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	    return e.getMessage();
 	}
 
 }

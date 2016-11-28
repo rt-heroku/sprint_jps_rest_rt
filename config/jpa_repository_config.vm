@@ -4,6 +4,10 @@
  */
 package ${target.javaPackageFromFolder($SRC)};
 
+#set( $startbrace = "{" )
+#set( $endbrace = "}" )
+#set( $sdb = "{database}")
+#set( $sinit = "{init-db:false}")
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,22 +34,18 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * @author rtorres
- *
- */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages="${ENTITY_PKG}")
+@EnableJpaRepositories(basePackages="${ROOT_PKG}.repository")
 public class PersistenceConfig {
 
 	@Autowired
 	private Environment env;
 
-	@Value("${init-db:false}")
+	@Value("$$sinit")
 	private String initDatabase;
 	
-	@Value("${database}")
+	@Value("$$sdb")
 	private String db;
 	
 	@Bean
@@ -69,7 +69,7 @@ public class PersistenceConfig {
 		
 		factory.setDataSource(dataSource());		
 		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan("com.heroku.demo.entities");
+		factory.setPackagesToScan("${ENTITY_PKG}");
 
 		Properties jpaProperties = new Properties();
 		jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty(db + "hibernate.hbm2ddl.auto"));
